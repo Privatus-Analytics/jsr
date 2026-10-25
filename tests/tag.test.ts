@@ -237,3 +237,55 @@ test("queue stub is off by default", () => {
   assertIncludes(on({ queueStub: true }), "q:[]");
   assertExcludes(on(), "q:[]");
 });
+
+// When the tag is off (turned off, outside production, or no site id).
+
+test("off with the queue stub on prints only the stub, with the nonce", () => {
+  let called = false;
+  const html = tag({
+    ...base,
+    enabled: false,
+    queueStub: true,
+    nonce: "abc",
+    props: () => {
+      called = true;
+      return { plan: "pro" };
+    },
+  });
+  assertEquals(html, `<script nonce="abc">${QUEUE_STUB}</script>`);
+  assert(!called, "the props function must not run when the tag is off");
+});
+
+test("off with the queue stub on and no nonce prints the bare stub", () => {
+  assertEquals(
+    on({ enabled: false, queueStub: true, props: { plan: "pro" } }),
+    `<script>${QUEUE_STUB}</script>`,
+  );
+});
+
+test("off with the queue stub off prints nothing", () => {
+  assertEquals(
+    on({ enabled: false, queueStub: false, props: { plan: "pro" } }),
+    "",
+  );
+});
+
+test("no site id with the queue stub on prints only the stub", async () => {
+  await withEnv(CLEAN_ENV, () => {
+    assertEquals(
+      tag({ enabled: true, queueStub: true, nonce: "n", props: { a: 1 } }),
+      `<script nonce="n">${QUEUE_STUB}</script>`,
+    );
+  });
+});
+
+test("outside production with the queue stub on prints only the stub", async () => {
+  await withEnv({ ...CLEAN_ENV, NODE_ENV: "development" }, () => {
+    assertEquals(
+      tag({ siteId: "pa_X", queueStub: true }),
+      `<script>${QUEUE_STUB}</script>`,
+    );
+    const privatus = createPrivatus({ siteId: "pa_X", queueStub: true });
+    assertEquals(privatus.tag(), `<script>${QUEUE_STUB}</script>`);
+  });
+});

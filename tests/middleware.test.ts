@@ -120,6 +120,9 @@ test("skips Ajax requests", () => {
 test("skips when the tag is off or autoInject is false", () => {
   const res = html(PAGE);
   assert(inject(res, { ...options, enabled: false }) === res);
+  assert(
+    inject(res, { ...options, enabled: false, queueStub: true }) === res,
+  );
   assert(inject(res, { ...options, autoInject: false }) === res);
 });
 

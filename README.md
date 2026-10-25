@@ -67,8 +67,10 @@ In production it prints:
 ```
 
 The tag prints nothing when there is no site id, and nothing outside
-production (see below). If your pages use a Content Security Policy (CSP)
-nonce, pass it as `nonce` and every script the package prints gets it.
+production (see below). With `queueStub: true` it then prints only the queue
+stub (see [Track from your own JavaScript](#track-from-your-own-javascript)).
+If your pages use a Content Security Policy (CSP) nonce, pass it as `nonce`
+and every script the package prints gets it.
 
 In JSX (Hono, Fresh, Preact), print the HTML without escaping it, for example
 with `dangerouslySetInnerHTML` or Hono's `raw()`.
@@ -362,9 +364,10 @@ sends them once the tracker is ready:
 createPrivatus({ queueStub: true });
 ```
 
-or for one page: `privatus.tag({ queueStub: true })`. Like the tag, the stub
-prints only where the tag is on, so in development use
-`window.privatus && privatus.track(...)`. `queueStub(nonce)` returns the stub
+or for one page: `privatus.tag({ queueStub: true })`. The stub prints even
+when the tag is off (in development, or with no site id). Then the tag prints
+only the stub, with no tracker, so your `privatus.track(...)` calls never fail.
+They wait in the list and are never sent. `queueStub(nonce)` returns the stub
 script on its own.
 
 ### See the results
@@ -387,6 +390,15 @@ visitor ids. Keep people out of your props and event props: no names, emails
 or user ids. See the
 [privacy documentation](https://privatusanalytics.com/docs/privacy) for what is
 collected.
+
+If you have a privacy policy, it should say which tools handle your visitors' data. You can paste this:
+
+> This website uses [Privatus Analytics](https://privatusanalytics.com/privacy-analytics) to count visits. It
+> does not use cookies and does not follow you from one website to another. Your IP address is used for a moment
+> to count visits and is never stored.
+
+Change it to fit your site. The [privacy policy generator](https://privatusanalytics.com/tools/privacy-policy-generator)
+makes a longer version with your site's name in it.
 
 ## Development
 

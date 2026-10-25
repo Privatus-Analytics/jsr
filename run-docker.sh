@@ -8,7 +8,7 @@ BUN_IMAGE=oven/bun:1.4.4-alpine
 docker run --rm -v "$PWD":/app -w /app -e DENO_DIR=/tmp/deno "$DENO_IMAGE" sh -c 'set -e
   deno fmt --check
   deno lint
-  deno check src/mod.ts src/middleware.ts
+  deno check src/mod.ts src/middleware.ts example/main.ts
   deno test --allow-env tests/
   deno test --allow-env --allow-net --allow-read integration/
   deno publish --dry-run --allow-dirty --config jsr.json

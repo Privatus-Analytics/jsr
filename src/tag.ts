@@ -88,7 +88,7 @@ export interface Privatus<C = unknown> {
   readonly options: PrivatusOptions<C>;
   /** The tag HTML. `overrides` change settings for one call. Props are merged over the configured ones. */
   tag(overrides?: PrivatusOptions<C>): string;
-  /** Whether a tag would print (there is a site id and the tag is on). */
+  /** Whether the tracker tag would print (there is a site id and the tag is on). */
   shouldRender(overrides?: PrivatusOptions<C>): boolean;
 }
 
@@ -177,11 +177,18 @@ function render<C>(
   overrides: PrivatusOptions<C>,
 ): string {
   const siteId = resolveSiteId(config, overrides);
-  if (!siteId || !isEnabled(config, overrides)) return "";
+  const nonce = pick(config, overrides, "nonce");
+  if (!siteId || !isEnabled(config, overrides)) {
+    // Off: only the queue stub (when it is on), so privatus.track calls in the
+    // page's own JavaScript wait in the queue and never throw. No tracker, no
+    // page props, and the props function is not called.
+    return pick(config, overrides, "queueStub") === true
+      ? inlineScript(QUEUE_STUB, nonce)
+      : "";
+  }
 
   const request = pick(config, overrides, "request");
   const context = pick(config, overrides, "context");
-  const nonce = pick(config, overrides, "nonce");
   const props = resolveProps(config.props, request, context);
   if (overrides.props !== undefined) {
     for (
@@ -268,8 +275,9 @@ export function createPrivatus<C = unknown>(
  * // <script defer src="https://privatusstats.com/js/pa.js" data-site="pa_YOURSITEID"></script>
  * ```
  *
- * Returns "" when there is no site id or the tag is off (by default it is on
- * only when PRIVATUS_ENV, DENO_ENV or NODE_ENV is "production").
+ * When there is no site id or the tag is off (by default it is on only when
+ * PRIVATUS_ENV, DENO_ENV or NODE_ENV is "production"), returns only the queue
+ * stub when `queueStub` is true, and otherwise "".
  */
 export function tag<C = unknown>(options: PrivatusOptions<C> = {}): string {
   return render(options, {});

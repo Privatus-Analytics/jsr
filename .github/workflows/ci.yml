@@ -29,7 +29,8 @@ jobs:
       - run: deno lint
       - run: deno test --allow-env tests/
       - run: deno test --allow-env --allow-net --allow-read integration/
-      - run: deno publish --dry-run --config jsr.json
+      # The 2.0 job removed deno.lock above, which leaves the tree dirty.
+      - run: deno publish --dry-run --config jsr.json ${{ matrix.deno == 'v2.0.x' && '--allow-dirty' || '' }}
 
   bun:
     runs-on: ubuntu-24.04

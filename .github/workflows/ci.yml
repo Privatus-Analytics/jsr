@@ -20,6 +20,11 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ matrix.deno }}
+      # deno.lock only pins the test frameworks (Hono, Oak, Fresh). Its format
+      # is newer than Deno 2.0 can read, so the oldest job resolves them fresh.
+      # The package itself has no dependencies.
+      - if: matrix.deno == 'v2.0.x'
+        run: rm deno.lock
       - run: deno fmt --check
       - run: deno lint
       - run: deno test --allow-env tests/

@@ -1,13 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- When the tag is off (turned off, outside production by default, or no site id), `tag()` with
-  `queueStub: true` now prints the queue stub alone, so `privatus.track` calls never fail. It prints
-  no tracker and no page props, and does not call a props function. With `queueStub` off it still
-  prints nothing. The middleware still adds nothing when the tag is off.
-- `example/`: a Hono app for the conformance tests.
-
 ## 1.0.0 - 2026-10-25
 
 - Initial release on JSR as `@privatus-analytics/analytics`.
@@ -22,3 +14,8 @@
 - `queueStub` setting and `queueStub()` helper, so `privatus.track` calls made before the tracker loads are kept.
 - `@privatus-analytics/analytics/middleware`: `inject(response)` adds the tag before `</head>` as a stream,
   plus `hono`, `oak`, `fresh` and `withPrivatus` (for `Deno.serve`, `Bun.serve` and Workers).
+- When the tag is off (turned off, outside production by default, or no site id), `tag()` with
+  `queueStub: true` now prints the queue stub alone, so `privatus.track` calls never fail. It prints
+  no tracker and no page props, and does not call a props function. With `queueStub` off it still
+  prints nothing. The middleware still adds nothing when the tag is off.
+- `example/`: a Hono app for the conformance tests.

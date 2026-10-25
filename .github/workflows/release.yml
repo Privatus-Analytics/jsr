@@ -1,0 +1,24 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    environment: release
+    permissions:
+      contents: read
+      id-token: write # lets JSR check this run came from this repo. No token is stored.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno test --allow-env tests/
+      - name: Check the tag matches jsr.json
+        run: |
+          version=$(deno eval 'console.log(JSON.parse(Deno.readTextFileSync("jsr.json")).version)')
+          test "v$version" = "$GITHUB_REF_NAME"
+      - run: deno publish --config jsr.json

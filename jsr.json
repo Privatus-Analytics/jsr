@@ -1,0 +1,18 @@
+{
+  "name": "@privatus/analytics",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/mod.ts",
+    "./middleware": "./src/middleware.ts"
+  },
+  "publish": {
+    "include": [
+      "src/**/*.ts",
+      "README.md",
+      "LICENSE",
+      "CHANGELOG.md",
+      "jsr.json"
+    ]
+  }
+}

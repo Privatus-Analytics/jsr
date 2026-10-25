@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "test": "deno test --allow-env tests/",
+    "check": "deno fmt --check && deno lint && deno check src/mod.ts src/middleware.ts && deno test --allow-env tests/ && deno publish --dry-run --allow-dirty --config jsr.json"
+  },
+  "fmt": {
+    "exclude": ["*.md"]
+  },
+  "lint": {
+    "rules": { "tags": ["recommended", "jsr"] }
+  },
+  "exclude": ["node_modules", "coverage"]
+}

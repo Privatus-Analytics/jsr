@@ -10,7 +10,7 @@
  * @example Hono
  * ```ts
  * import { Hono } from "@hono/hono";
- * import { hono as privatus } from "@privatus/analytics/middleware";
+ * import { hono as privatus } from "@privatus-analytics/analytics/middleware";
  *
  * const app = new Hono();
  * app.use(privatus({ siteId: "pa_YOURSITEID" }));

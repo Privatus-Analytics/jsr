@@ -27,9 +27,9 @@ reports, and there is a free plan. Sign up at https://privatusanalytics.com.
 ## Install
 
 ```sh
-deno add jsr:@privatus/analytics   # Deno
-bunx jsr add @privatus/analytics   # Bun
-npx jsr add @privatus/analytics    # Node
+deno add jsr:@privatus-analytics/analytics   # Deno
+bunx jsr add @privatus-analytics/analytics   # Bun
+npx jsr add @privatus-analytics/analytics    # Node
 ```
 
 For the full setup guide and every tracker option, see the
@@ -48,7 +48,7 @@ or pass it in code: `tag({ siteId: "pa_YOURSITEID" })`.
 Put the tag in the `<head>` of your pages:
 
 ```ts
-import { tag } from "@privatus/analytics";
+import { tag } from "@privatus-analytics/analytics";
 
 const html = `<!doctype html>
 <html>
@@ -76,7 +76,7 @@ with `dangerouslySetInnerHTML` or Hono's `raw()`.
 If you call the tag in many places, make one instance with your settings:
 
 ```ts
-import { createPrivatus } from "@privatus/analytics";
+import { createPrivatus } from "@privatus-analytics/analytics";
 
 export const privatus = createPrivatus({
   siteId: "pa_YOURSITEID",
@@ -90,7 +90,7 @@ privatus.tag({ excludedPaths: ["/preview/*"] }); // change a setting for one pag
 ### Or let the middleware add it
 
 If you would rather not touch your pages, use the middleware from
-`@privatus/analytics/middleware`. It adds the tag just before `</head>` in
+`@privatus-analytics/analytics/middleware`. It adds the tag just before `</head>` in
 `text/html` responses with status 200. It skips background requests made by page scripts (those with
 the `X-Requested-With: XMLHttpRequest` header), pages without a `<head>`, pages that
 already have the tag before `</head>`, and responses with a `Content-Encoding`
@@ -104,7 +104,7 @@ pages are changed (the usual case).
 
 ```ts
 import { Hono } from "@hono/hono";
-import { hono as privatus } from "@privatus/analytics/middleware";
+import { hono as privatus } from "@privatus-analytics/analytics/middleware";
 
 const app = new Hono();
 app.use(privatus({ siteId: "pa_YOURSITEID" }));
@@ -118,7 +118,7 @@ middleware when you set `scriptSrc: [NONCE]`.
 
 ```ts
 import { Application } from "@oak/oak";
-import { oak as privatus } from "@privatus/analytics/middleware";
+import { oak as privatus } from "@privatus-analytics/analytics/middleware";
 
 const app = new Application();
 app.use(privatus({ siteId: "pa_YOURSITEID" }));
@@ -132,7 +132,7 @@ It changes string, byte and stream bodies. Set `ctx.response.type = "html"`
 
 ```ts
 // routes/_middleware.ts
-import { fresh as privatus } from "@privatus/analytics/middleware";
+import { fresh as privatus } from "@privatus-analytics/analytics/middleware";
 
 export default privatus({ siteId: "pa_YOURSITEID" });
 ```
@@ -142,7 +142,7 @@ or `app.use(privatus({ siteId: "pa_YOURSITEID" }))` in `main.ts`.
 **Deno.serve, Bun.serve and Cloudflare Workers:** wrap your fetch handler.
 
 ```ts
-import { withPrivatus } from "@privatus/analytics/middleware";
+import { withPrivatus } from "@privatus-analytics/analytics/middleware";
 
 Deno.serve(withPrivatus(handler, { siteId: "pa_YOURSITEID" }));
 Bun.serve({ fetch: withPrivatus(handler) });
@@ -247,7 +247,7 @@ place, and you can split them by format.
 yourself:
 
 ```ts
-import { eventAttrs } from "@privatus/analytics";
+import { eventAttrs } from "@privatus-analytics/analytics";
 
 `<button ${eventAttrs("Report exported", { format: "csv", source: "toolbar" })}>Export</button>`;
 ```
@@ -262,7 +262,7 @@ In JSX, use `eventData`. It returns an object with the full attribute names,
 so you spread it into the element:
 
 ```tsx
-import { eventData } from "@privatus/analytics";
+import { eventData } from "@privatus-analytics/analytics";
 
 <button {...eventData("Report exported", { format: "csv" })}>Export</button>;
 ```

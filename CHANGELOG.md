@@ -2,7 +2,7 @@
 
 ## 1.0.0 - 2026-10-25
 
-- Initial release on JSR as `@privatus/analytics`.
+- Initial release on JSR as `@privatus-analytics/analytics`.
 - `tag()` and `createPrivatus()` print the script tag. Settings for site id, script host, modules,
   excluded paths, domains, single-page app mode, manual mode, extra attributes and nonce.
 - On only in production by default (`PRIVATUS_ENV`, `DENO_ENV` or `NODE_ENV`), read safely on Deno,
@@ -12,5 +12,5 @@
 - Page props (an object, or a function that gets the request) that print the `privatusPageProps`
   script and `data-props`. `pagePropsJson` for the same JSON.
 - `queueStub` setting and `queueStub()` helper, so `privatus.track` calls made before the tracker loads are kept.
-- `@privatus/analytics/middleware`: `inject(response)` adds the tag before `</head>` as a stream,
+- `@privatus-analytics/analytics/middleware`: `inject(response)` adds the tag before `</head>` as a stream,
   plus `hono`, `oak`, `fresh` and `withPrivatus` (for `Deno.serve`, `Bun.serve` and Workers).

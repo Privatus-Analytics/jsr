@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import { clickAttr, eventAttrs, tag } from "@privatus/analytics";
+ * import { clickAttr, eventAttrs, tag } from "@privatus-analytics/analytics";
  *
  * tag({ siteId: "pa_YOURSITEID", enabled: true });
  * eventAttrs("Report exported", { format: "csv" });

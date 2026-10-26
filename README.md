@@ -1,20 +1,46 @@
 # Privatus Analytics for Deno, Bun and the web
 
-Adds the cookieless [Privatus Analytics](https://privatusanalytics.com)
-tracking script to your pages. Print the tag yourself, or let a small
-middleware put it in the `<head>` for you. It works with Hono, Oak, Fresh 2,
-`Deno.serve`, `Bun.serve`, Cloudflare Workers and Node.
+**Simple, private website analytics for your Deno, Bun or web app. No cookies, honest numbers,
+and a dashboard you understand in seconds.**
 
-Privatus Analytics counts visits, sources, pages and conversions without
-cookies, local storage or fingerprinting (guessing who someone is from their
-device). So in many countries you do not need to ask visitors for permission,
-with a cookie pop-up, just for analytics. The rules differ from country to
-country, so check the ones that apply to you.
+## Why Privatus Analytics
 
-The package only builds HTML: the browser script tag and a few HTML
-attributes. It never sends events from your server, sets no cookies and reads
-nothing about your visitors. You need a Privatus Analytics account to see
-reports, and there is a free plan. Sign up at https://privatusanalytics.com.
+**Google Analytics is slow, confusing and hungry for data.** It sends what your
+visitors do to Google. In many countries it means showing a cookie pop-up (the box
+that asks visitors to accept cookies), and many people click "reject", so you never
+see them. Bots pad the numbers that are left.
+
+**Privatus Analytics fixes that.** It counts visits to your Deno, Bun or web app without cookies and
+never stores IP addresses. Bots are filtered out before they are counted. Your
+data is never sold or shared.
+
+What you get:
+
+- **A dashboard you understand in seconds.** Visitors, top pages and where people
+  came from, all on one screen.
+- **No cookie pop-up needed for our analytics.** We set no cookies and store no
+  personal data. Laws differ by country, so check your own legal advice.
+- **Honest numbers.** Known bots and fake traffic are left out on every plan.
+- **A fast site.** The tracking script is about 3 KB, tiny next to most tracking tags.
+- **Data you own.** We never sell it or show you ads, and you can pull it out
+  any time through the API.
+
+**Start free.** The Free plan has 10,000 events a month and 3 sites, with no card.
+Every new account also gets 14 days of Pro free, with no card.
+[Create your account](https://privatusanalytics.com).
+
+## What this package does
+
+- Print the tag yourself, or let a small middleware put it in the `<head>` for
+  you.
+- Works with Hono, Oak, Fresh 2, `Deno.serve`, `Bun.serve`, Cloudflare Workers
+  and Node.
+- The package only builds HTML: the browser script tag and a few HTML
+  attributes. It never sends events from your server, sets no cookies and reads
+  nothing about your visitors.
+
+You need a Privatus Analytics account to see your reports, and there is a
+free plan. [Sign up at privatusanalytics.com](https://privatusanalytics.com).
 
 ## Requirements
 
@@ -232,7 +258,7 @@ const head = user?.isAdmin ? "" : privatus.tag();
 
 ## Product analytics: see which features people use
 
-Privatus can show which buttons, forms and features people really use. You
+Privatus Analytics can show which buttons, forms and features people really use. You
 add a few attributes to your HTML. The tracker reads them in the browser and
 sends the events. Your server still sends nothing.
 
@@ -342,7 +368,7 @@ they are safe inside a script. `pagePropsJson(props)` gives you the same JSON
 if you need it.
 
 **Never put names, emails, user ids or anything that points to one person in
-props.** Privatus counts visitors without any id. Put groups (like the plan or
+props.** Privatus Analytics counts visitors without any id. Put groups (like the plan or
 the role), not people. The server also removes emails and long ids it finds.
 
 ### Track from your own JavaScript
